@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+      "module": "es6",
+      "target": "es2019",
+      "jsx": "react",
+      "baseUrl": ".",
+      
+      "paths": { 
+           "@components/*": ["components/*"],
+            "@root/*": ["./*"]
+    }
+    
+  },
+"emmet.includeLanguages": {
+     "javascript": "javascriptreact"   
+        
+    
+    },
+  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"],
+  "exclude": ["node_modules", "dist", "config", ".vscode"]
+}
