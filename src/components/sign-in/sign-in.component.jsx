@@ -34,6 +34,7 @@ export default class SignInComponent extends Component {
                         value={this.state.email}
                         label='Email'
                         required
+                        
                     />
                     <FormInput
                         name='password'
