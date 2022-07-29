@@ -16,6 +16,6 @@
         
     
     },
-  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"],
+  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte", "src/Redux/user/user.actions.jsx", "src/Redux/user/user.reducer.jsx"],
   "exclude": ["node_modules", "dist", "config", ".vscode"]
 }

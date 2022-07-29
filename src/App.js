@@ -2,60 +2,78 @@ import './App.css';
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import RoutesDta from './global/routes';
 import Header from './components/header/header.component.jsx';
-import { Component } from 'react'
-import { auth, createUserProfileDocument } from './firebase/firebase.utils'
+import Wrapper from './components/wrapper/wrapper.component.jsx';
+import { useEffect, useRef } from 'react'
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+
+import { setCurrentUser } from './Redux/user/user.actions.js';
+import { selectCurrentUser } from './Redux/user/user.selectors.js';
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
-class App extends Component {
-  constructor() {
-    super();
+const App = ({ setCurrentUser, currentUser })=> {
+  var unsubscribeFromAuth = useRef({ });
 
-    this.state = {
-      currentUser: null
-    };
-  }
+  console.log(currentUser,'sdggggg')
 
-  unsubscribeFromAuth = null;
+  useEffect(() => { 
 
-  componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+ 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
-            }
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
           });
-
-          console.log(this.state);
         });
       }
 
-      this.setState({ currentUser: userAuth });
+      setCurrentUser(userAuth);
     });
-  }
+    return () => {
+      unsubscribeFromAuth();
+    }
+  }, [])
+ 
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
+ 
 
-  render() {
+ 
     return (
       <div className="App">
-        <Router>
-          <Header currentUser={this.state.currentUser} />
-          <RoutesDta />
+      
+       <Router>
+          <Header/>
+          <Wrapper>
+                      <RoutesDta />
+
+          </Wrapper>
         </Router>
+     
+       
       </div>
     );
-  }
+ 
 }
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+ });
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
