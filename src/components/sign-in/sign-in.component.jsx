@@ -3,6 +3,8 @@ import './sign-in.styles.scss'
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
 import {signInWithGoogle} from '../../firebase/firebase.utils.js'
+import { ReactComponent as GoogleIcon }from '../../assets/google.svg'
+
 export default class SignInComponent extends Component {
     constructor(props) {
         super(props);
@@ -48,8 +50,12 @@ export default class SignInComponent extends Component {
                     />
                     <div className='buttons d-flex justify-content-between gap-5'>
                         <CustomButton type='submit'> Sign in </CustomButton>
-                        <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-                            Sign in with Google
+                        <CustomButton onClick={signInWithGoogle} isSVGIcon>
+                            With 
+                            <span   >
+                             <GoogleIcon />
+
+                            </span>
                         </CustomButton>
                     </div>
                 </form>

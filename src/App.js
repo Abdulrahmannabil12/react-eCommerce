@@ -53,10 +53,9 @@ const App = ({ setCurrentUser, currentUser })=> {
       
        <Router>
           <Header/>
-          <Wrapper>
-                      <RoutesDta />
+                       <RoutesDta />
 
-          </Wrapper>
+          
         </Router>
      
        
